@@ -24,6 +24,15 @@ export const CoffeeContainer = styled.li`
   p {
     color: ${({ theme }) => theme.colors["base-label"]};
   }
+
+  @media (max-width: 670px) {
+    width: 100%;
+    padding: 30px;
+
+    img {
+      margin-top: -55px;
+    }
+  }
 `;
 
 export const TagsContainer = styled.div`
