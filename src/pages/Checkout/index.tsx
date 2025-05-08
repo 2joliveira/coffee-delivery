@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   AddressContent,
   CheckoutContainer,
@@ -9,16 +10,45 @@ import {
   PaymentOption,
   CoffeeList,
   CoffeeItem,
+  CounterActions,
+  CounterButton,
+  ConfirmButton,
+  PriceContent,
+  TitleContent,
+  RemoveButton,
+  TitleContainer,
 } from "./styles";
 import {
   Bank,
   CreditCard,
   CurrencyDollar,
   MapPinLine,
+  Minus,
   Money,
+  Plus,
+  Trash,
 } from "@phosphor-icons/react";
 
 export function Checkout() {
+  const [quantity, setQuantity] = useState(0);
+
+  const mockItems = [
+    {
+      name: "Expresso Tradicional",
+      description: "O tradicional café feito com água quente e grãos moídos",
+      price: 9.9,
+      ingredients: ["TRADICIONAL"],
+      imagePath: "assets/coffees/tradicional.png",
+    },
+    {
+      name: "Expresso Americano",
+      description: "Expresso diluído, menos intenso que o tradicional",
+      price: 9.9,
+      ingredients: ["TRADICIONAL"],
+      imagePath: "assets/coffees/americano.png",
+    },
+  ];
+
   return (
     <CheckoutContainer>
       <OrderContainer>
@@ -100,8 +130,66 @@ export function Checkout() {
 
         <main>
           <CoffeeList>
-            <CoffeeItem></CoffeeItem>
+            {mockItems.map((item) => (
+              <CoffeeItem>
+                <img src={item.imagePath} alt="" />
+
+                <TitleContainer>
+                  <TitleContent>{item.name}</TitleContent>
+                  <div>
+                    <CounterActions>
+                      <CounterButton
+                        type="button"
+                        onClick={() =>
+                          quantity > 0 && setQuantity(quantity - 1)
+                        }
+                      >
+                        <Minus size={17} />
+                      </CounterButton>
+                      <p>{quantity}</p>
+                      <CounterButton
+                        type="button"
+                        onClick={() => setQuantity(quantity + 1)}
+                      >
+                        <Plus size={17} />
+                      </CounterButton>
+                    </CounterActions>
+
+                    <RemoveButton>
+                      <Trash size={17} />
+                      Remover
+                    </RemoveButton>
+                  </div>
+                </TitleContainer>
+
+                <PriceContent>
+                  <p>
+                    {item.price.toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </p>
+                </PriceContent>
+              </CoffeeItem>
+            ))}
           </CoffeeList>
+
+          <div>
+            <span>
+              <p>Total de items</p>
+              <p>R$ 29,70</p>
+            </span>
+            <span>
+              <p>Entrega</p>
+              <p>R$ 3,50</p>
+            </span>
+            <span>
+              <p>Total</p>
+              <p>R$ 33,20</p>
+            </span>
+          </div>
+
+          <ConfirmButton>CONFIRMAR PEDIDO</ConfirmButton>
         </main>
       </SelectedCoffeesContainer>
     </CheckoutContainer>
