@@ -60,6 +60,7 @@ export const AddressContent = styled.div`
     margin-top: 30px;
 
     input {
+      height: 55px;
       padding: 10px;
       border-radius: 7px;
       color: ${({ theme }) => theme.colors["base-subtitle"]};
@@ -70,6 +71,13 @@ export const AddressContent = styled.div`
       &:hover {
         background-color: ${({ theme }) => theme.colors["base-hover"]};
       }
+    }
+
+    p {
+      color: red;
+      font-size: 0.7rem;
+      margin-top: 5px;
+      padding-left: 5px;
     }
   }
 `;
