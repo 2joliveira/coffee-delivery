@@ -17,10 +17,10 @@ export function Header() {
       <RightContent>
         <LocationButton>
           <MapPin size={22} weight="fill" />
-          Porto Alegre, RS
+          Recife, PE
         </LocationButton>
 
-        <CartButton>
+        <CartButton type="button">
           <ShoppingCart size={22} weight="fill" />
         </CartButton>
       </RightContent>

@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
 interface InfoProps {
-  iconColor: string;
+  iconcolor: string;
 }
 
 export const Container = styled.div`
@@ -62,7 +62,7 @@ export const InfoContent = styled.div<InfoProps>`
 
   svg {
     color: white;
-    background-color: ${({ iconColor }) => iconColor};
+    background-color: ${({ iconcolor }) => iconcolor};
     border-radius: 50px;
     padding: 7px;
   }

@@ -28,26 +28,43 @@ import {
   Plus,
   Trash,
 } from "@phosphor-icons/react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as zod from "zod";
+import { useCoffeeShop } from "../../hooks/coffeeShop";
+
+const validationSchema = zod.object({
+  cep: zod.string().regex(/^\d{5}-?\d{3}$/, {
+    message: "CEP inválido. Use o formato 00000-000 ou 00000000.",
+  }),
+  street: zod.string().min(4, "Informe a rua em que reside."),
+  number: zod.string().min(1, "Informe o número da sua residência."),
+  complement: zod.string().optional(),
+  district: zod.string().min(4, "Informe seu bairro"),
+  city: zod.string().min(4, "Informe sua cidade"),
+  uf: zod.string().min(2, "Informe o UF"),
+});
+
+type CheckoutProps = zod.infer<typeof validationSchema>;
 
 export function Checkout() {
+  const { selectedCoffees } = useCoffeeShop();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CheckoutProps>({
+    resolver: zodResolver(validationSchema),
+  });
   const [quantity, setQuantity] = useState(0);
 
-  const mockItems = [
-    {
-      name: "Expresso Tradicional",
-      description: "O tradicional café feito com água quente e grãos moídos",
-      price: 9.9,
-      ingredients: ["TRADICIONAL"],
-      imagePath: "assets/coffees/tradicional.png",
-    },
-    {
-      name: "Expresso Americano",
-      description: "Expresso diluído, menos intenso que o tradicional",
-      price: 9.9,
-      ingredients: ["TRADICIONAL"],
-      imagePath: "assets/coffees/americano.png",
-    },
-  ];
+  const onSubmit = (data: CheckoutProps) => {
+    console.log("Dados enviados:", data);
+    reset();
+  };
+
+  const handleConfirm = handleSubmit(onSubmit);
 
   return (
     <CheckoutContainer>
@@ -62,37 +79,79 @@ export function Checkout() {
             </span>
           </HeaderContent>
           <form>
-            <input type="text" placeholder="CEP" style={{ width: "35%" }} />
-            <input type="text" placeholder="Rua" style={{ width: "100%" }} />
+            <input
+              id="cep"
+              type="text"
+              placeholder="CEP"
+              style={{ width: "35%" }}
+              {...register("cep")}
+            />
+            {errors.cep && <p>{errors.cep.message}</p>}
+
+            <input
+              id="street"
+              type="text"
+              placeholder="Rua"
+              style={{ width: "100%" }}
+              {...register("street")}
+            />
+            {errors.street && <p>{errors.street.message}</p>}
 
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <input
-                type="text"
-                placeholder="Número"
-                style={{ width: "35%" }}
-              />
+              <div style={{ width: "35%" }}>
+                <input
+                  id="number"
+                  type="text"
+                  placeholder="Número"
+                  style={{ width: "100%" }}
+                  {...register("number")}
+                />
+                {errors.number && <p>{errors.number.message}</p>}
+              </div>
 
               <input
+                id="complement"
                 type="text"
                 placeholder="Complemento"
                 style={{ width: "64%" }}
+                {...register("complement")}
               />
+              {errors.complement && <p>{errors.complement.message}</p>}
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <input
-                type="text"
-                placeholder="Bairro"
-                style={{ width: "35%" }}
-              />
+              <div style={{ width: "35%" }}>
+                <input
+                  id="district"
+                  type="text"
+                  placeholder="Bairro"
+                  style={{ width: "100%" }}
+                  {...register("district")}
+                />
+                {errors.district && <p>{errors.district.message}</p>}
+              </div>
 
-              <input
-                type="text"
-                placeholder="Cidade"
-                style={{ width: "53%" }}
-              />
+              <div style={{ width: "53%" }}>
+                <input
+                  id="city"
+                  type="text"
+                  placeholder="Cidade"
+                  style={{ width: "100%" }}
+                  {...register("city")}
+                />
+                {errors.city && <p>{errors.city.message}</p>}
+              </div>
 
-              <input type="text" placeholder="UF" style={{ width: "10%" }} />
+              <div style={{ width: "10%" }}>
+                <input
+                  id="uf"
+                  type="text"
+                  placeholder="UF"
+                  style={{ width: "100%" }}
+                  {...register("uf")}
+                />
+                {errors.uf && <p>{errors.uf.message}</p>}
+              </div>
             </div>
           </form>
         </AddressContent>
@@ -130,8 +189,8 @@ export function Checkout() {
 
         <main>
           <CoffeeList>
-            {mockItems.map((item) => (
-              <CoffeeItem>
+            {selectedCoffees.map((item) => (
+              <CoffeeItem key={item.name}>
                 <img src={item.imagePath} alt="" />
 
                 <TitleContainer>
@@ -189,7 +248,9 @@ export function Checkout() {
             </span>
           </div>
 
-          <ConfirmButton>CONFIRMAR PEDIDO</ConfirmButton>
+          <ConfirmButton type="button" onClick={handleConfirm}>
+            CONFIRMAR PEDIDO
+          </ConfirmButton>
         </main>
       </SelectedCoffeesContainer>
     </CheckoutContainer>

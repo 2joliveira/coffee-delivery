@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCoffeeShop } from "../../../../hooks/coffeeShop";
 import { CoffeeProps } from "../../interface";
 import {
   ButtonsContainer,
@@ -12,15 +12,17 @@ import {
 } from "./styles";
 import { ShoppingCart, Plus, Minus } from "@phosphor-icons/react";
 
-export function CoffeeCard({
-  name,
-  imagePath,
-  description,
-  price,
-  ingredients,
-}: CoffeeProps) {
-  const [quantity, setQuantity] = useState(0);
-
+export function CoffeeCard(coffee: CoffeeProps) {
+  const {
+    id,
+    name,
+    imagePath,
+    description,
+    price,
+    ingredients,
+    quantity,
+  } = coffee;
+  const { addToCart, removeFromCart } = useCoffeeShop();
   const formattedPrice = new Intl.NumberFormat("pt-BR", {
     currency: "BRL",
     minimumFractionDigits: 2,
@@ -32,7 +34,7 @@ export function CoffeeCard({
       <img src={imagePath} alt="" />
       <TagsContainer>
         {ingredients.map((ingredient) => (
-          <span>{ingredient}</span>
+          <span key={ingredient}>{ingredient}</span>
         ))}
       </TagsContainer>
 
@@ -49,14 +51,14 @@ export function CoffeeCard({
           <CounterActions>
             <CounterButton
               type="button"
-              onClick={() => quantity > 0 && setQuantity(quantity - 1)}
+              onClick={() => removeFromCart(id)}
             >
               <Minus size={17} />
             </CounterButton>
             <p>{quantity}</p>
             <CounterButton
               type="button"
-              onClick={() => setQuantity(quantity + 1)}
+              onClick={() => addToCart(id)}
             >
               <Plus size={17} />
             </CounterButton>

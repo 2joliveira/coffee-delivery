@@ -50,10 +50,6 @@ export const LocationButton = styled.button`
     box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["purple-dark"]};
   }
 
-  &:hover {
-    cursor: pointer;
-  }
-
   @media (max-width: 380px) {
     width: 100%;
   }
@@ -68,8 +64,5 @@ export const CartButton = styled.button`
   border-radius: 6px;
   background-color: ${({ theme }) => theme.colors["yellow-light"]};
   color: ${({ theme }) => theme.colors["yellow-dark"]};
-
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;

@@ -21,7 +21,7 @@ export function Success() {
       <MainContent>
         <PurchaseInfosContainer>
           <PurchaseInfos>
-            <InfoContent iconColor="#8047F8">
+            <InfoContent iconcolor="#8047F8">
               <MapPin size={35} weight="fill" />
               <span>
                 <p>
@@ -31,7 +31,7 @@ export function Success() {
               </span>
             </InfoContent>
 
-            <InfoContent iconColor="#DBAC2C">
+            <InfoContent iconcolor="#DBAC2C">
               <Timer size={35} weight="fill" />
               <span>
                 <p>Previsão de entrega</p>
@@ -39,7 +39,7 @@ export function Success() {
               </span>
             </InfoContent>
 
-            <InfoContent iconColor="#C47F17">
+            <InfoContent iconcolor="#C47F17">
               <CurrencyDollar size={35} />
               <span>
                 <p>Pagamento na entrega</p>
