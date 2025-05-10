@@ -19,11 +19,12 @@ import {
 
 import home from "@/assets/home.png";
 
-import coffees from "@/mocks/coffees.json";
 import { CoffeeCard } from "./components/CoffeeCard";
 import { CoffeeProps } from "./interface";
+import { useCoffeeShop } from "../../hooks/coffeeShop";
 
 export function Home() {
+  const { coffees } = useCoffeeShop()
   return (
     <HomeContainer>
       <HomeContent>
@@ -60,7 +61,7 @@ export function Home() {
         <h2>Nossos cafés</h2>
         <ProductsList>
           {coffees.map((coffee: CoffeeProps) => (
-            <CoffeeCard key={coffee.name} {...coffee} />
+            <CoffeeCard key={coffee.id} {...coffee} />
           ))}
         </ProductsList>
       </ProductsListContainer>

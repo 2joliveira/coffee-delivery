@@ -31,6 +31,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
+import { useCoffeeShop } from "../../hooks/coffeeShop";
 
 const validationSchema = zod.object({
   cep: zod.string().regex(/^\d{5}-?\d{3}$/, {
@@ -44,35 +45,23 @@ const validationSchema = zod.object({
   uf: zod.string().min(2, "Informe o UF"),
 });
 
+type CheckoutProps = zod.infer<typeof validationSchema>;
+
 export function Checkout() {
+  const { selectedCoffees } = useCoffeeShop();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm({
+  } = useForm<CheckoutProps>({
     resolver: zodResolver(validationSchema),
   });
   const [quantity, setQuantity] = useState(0);
 
-  const mockItems = [
-    {
-      name: "Expresso Tradicional",
-      description: "O tradicional café feito com água quente e grãos moídos",
-      price: 9.9,
-      ingredients: ["TRADICIONAL"],
-      imagePath: "assets/coffees/tradicional.png",
-    },
-    {
-      name: "Expresso Americano",
-      description: "Expresso diluído, menos intenso que o tradicional",
-      price: 9.9,
-      ingredients: ["TRADICIONAL"],
-      imagePath: "assets/coffees/americano.png",
-    },
-  ];
-
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: CheckoutProps) => {
     console.log("Dados enviados:", data);
+    reset();
   };
 
   const handleConfirm = handleSubmit(onSubmit);
@@ -200,7 +189,7 @@ export function Checkout() {
 
         <main>
           <CoffeeList>
-            {mockItems.map((item) => (
+            {selectedCoffees.map((item) => (
               <CoffeeItem key={item.name}>
                 <img src={item.imagePath} alt="" />
 
