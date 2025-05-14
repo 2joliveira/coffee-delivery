@@ -1,5 +1,6 @@
-import { useCoffeeShop } from "../../../../hooks/coffeeShop";
-import { CoffeeProps } from "../../interface";
+import { useState } from "react";
+import { CoffeeProps } from "../../../../reducers/coffeesShop/reducer";
+import Modal from "react-modal";
 import {
   ButtonsContainer,
   CartButton,
@@ -9,25 +10,69 @@ import {
   CounterContainer,
   PriceContent,
   TagsContainer,
+  ModalContainer,
+  CoffeeContentModal,
+  AmountText,
 } from "./styles";
 import { ShoppingCart, Plus, Minus } from "@phosphor-icons/react";
+import { useCoffeeShop } from "../../../../contexts/CoffeeShopContext";
+import { useNavigate } from "react-router-dom";
+
+const modalCustomStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 
 export function CoffeeCard(coffee: CoffeeProps) {
-  const {
-    id,
-    name,
-    imagePath,
-    description,
-    price,
-    ingredients,
-    quantity,
-  } = coffee;
-  const { addToCart, removeFromCart } = useCoffeeShop();
-  const formattedPrice = new Intl.NumberFormat("pt-BR", {
-    currency: "BRL",
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(price);
+  const { id, name, imagePath, description, price, ingredients } = coffee;
+  const { addToCart } = useCoffeeShop();
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [quantity, setQuantity] = useState(0);
+
+  function openModal() {
+    setIsModalOpen(true);
+  }
+
+  function closeModal() {
+    setIsModalOpen(false);
+  }
+
+  function handleContinueShopping() {
+    if (quantity > 0) {
+      addToCart(id, { ...coffee, quantity });
+      setQuantity(0);
+    }
+    closeModal();
+  }
+
+  function handleContinueToCart() {
+    handleContinueShopping();
+    navigate("/checkout");
+  }
+
+  const HandleActionButtons = () => {
+    return (
+      <CounterActions>
+        <CounterButton
+          type="button"
+          onClick={() => quantity > 0 && setQuantity(quantity - 1)}
+        >
+          <Minus size={17} weight="bold" />
+        </CounterButton>
+        <p>{quantity}</p>
+        <CounterButton type="button" onClick={() => setQuantity(quantity + 1)}>
+          <Plus size={17} weight="bold" />
+        </CounterButton>
+      </CounterActions>
+    );
+  };
 
   return (
     <CoffeeContainer>
@@ -45,29 +90,54 @@ export function CoffeeCard(coffee: CoffeeProps) {
       <CounterContainer>
         <PriceContent>
           <p>R$</p>
-          <p>{formattedPrice}</p>
+          <p>
+            {price.toLocaleString("pt-BR", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </p>
         </PriceContent>
         <ButtonsContainer>
-          <CounterActions>
-            <CounterButton
-              type="button"
-              onClick={() => removeFromCart(id)}
-            >
-              <Minus size={17} />
-            </CounterButton>
-            <p>{quantity}</p>
-            <CounterButton
-              type="button"
-              onClick={() => addToCart(id)}
-            >
-              <Plus size={17} />
-            </CounterButton>
-          </CounterActions>
+          <HandleActionButtons />
           <CartButton>
-            <ShoppingCart size={22} weight="fill" />
+            <ShoppingCart size={22} weight="fill" onClick={openModal} />
           </CartButton>
         </ButtonsContainer>
       </CounterContainer>
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        style={modalCustomStyles}
+        shouldCloseOnOverlayClick
+        shouldCloseOnEsc
+      >
+        <ModalContainer>
+          <CoffeeContentModal>
+            <img src={imagePath} alt="" />
+
+            <h3>{name}</h3>
+            <p className="textModal">{description}</p>
+
+            <HandleActionButtons />
+          </CoffeeContentModal>
+
+          <AmountText>
+            {(price * quantity).toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
+          </AmountText>
+
+          <button className="modalButton" onClick={handleContinueShopping}>
+            Continuar Comprando
+          </button>
+          <button className="modalButton" onClick={handleContinueToCart}>
+            <ShoppingCart size={22} weight="fill" />
+            Ir para o carrinho
+          </button>
+        </ModalContainer>
+      </Modal>
     </CoffeeContainer>
   );
 }

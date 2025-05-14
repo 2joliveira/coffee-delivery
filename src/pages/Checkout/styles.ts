@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const CheckoutContainer = styled.div`
   width: 100%;
@@ -99,15 +99,13 @@ export const PaymentOptions = styled.div`
   }
 `;
 
-export const PaymentOption = styled.button`
+export const PaymentOption = styled.button<{ isSelected: boolean }>`
   width: 100%;
   padding: 20px;
   display: flex;
   align-items: center;
   border: none;
   border-radius: 15px;
-  color: ${({ theme }) => theme.colors["base-text"]};
-  background-color: ${({ theme }) => theme.colors["base-button"]};
   cursor: pointer;
 
   svg {
@@ -126,6 +124,16 @@ export const PaymentOption = styled.button`
     box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["purple-dark"]};
   }
 
+  ${({ isSelected }) =>
+    isSelected
+      ? css`
+          border: 2px solid ${({ theme }) => theme.colors["purple-dark"]};
+          background-color: ${({ theme }) => theme.colors["purple-light"]};
+        `
+      : css`
+          color: ${({ theme }) => theme.colors["base-text"]};
+          background-color: ${({ theme }) => theme.colors["base-button"]};
+        `}
 
   @media (max-width: 745px) {
     justify-content: center;
@@ -140,7 +148,7 @@ export const SelectedCoffeesContainer = styled.div`
 
   main {
     margin-top: 20px;
-    padding: 50px;
+    padding: 50px 30px;
     background-color: ${({ theme }) => theme.colors["base-card"]};
     border-radius: 10px 50px 10px 50px;
 
@@ -195,6 +203,14 @@ export const ConfirmButton = styled.button`
   color: ${({ theme }) => theme.colors["white"]};
   background-color: ${({ theme }) => theme.colors["yellow"]};
   cursor: pointer;
+
+  &:not(:disabled):hover {
+    background-color: ${({ theme }) => theme.colors["yellow-dark"]};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
 
 export const CoffeeList = styled.ul`
@@ -242,6 +258,10 @@ export const RemoveButton = styled.button`
   svg {
     color: ${({ theme }) => theme.colors["purple"]};
   }
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors['base-hover']};
+  }
 `;
 
 export const TitleContent = styled.p`
@@ -251,7 +271,7 @@ export const TitleContent = styled.p`
 `;
 
 export const PriceContent = styled.p`
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: ${({ theme }) => theme.colors["base-text"]};
 `;
@@ -286,6 +306,7 @@ export const CounterButton = styled.button`
 
   &:hover {
     color: ${({ theme }) => theme.colors["purple-dark"]};
+    background-color: ${({ theme }) => theme.colors['base-hover']};
   }
 
   &:focus {

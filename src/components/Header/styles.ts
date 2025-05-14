@@ -56,6 +56,7 @@ export const LocationButton = styled.button`
 `;
 
 export const CartButton = styled.button`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,4 +66,23 @@ export const CartButton = styled.button`
   background-color: ${({ theme }) => theme.colors["yellow-light"]};
   color: ${({ theme }) => theme.colors["yellow-dark"]};
   cursor: pointer;
+
+  span {
+    background-color: red;
+    color: ${({ theme }) => theme.colors["white"]};
+    padding: 1px 4.5px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 80px;
+    text-align: center;
+
+    position: absolute;
+    top: -5px;
+    right: -5px;
+  }
+
+  &:hover {
+    color: ${({ theme }) => theme.colors['yellow-light']};
+    background-color: ${({ theme }) => theme.colors['yellow']};
+  }
 `;
