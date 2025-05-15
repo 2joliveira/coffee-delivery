@@ -19,6 +19,7 @@ import { AddressForm } from "./components/AddressForm";
 import * as zod from "zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = zod.object({
   cep: zod.string().regex(/^\d{5}-?\d{3}$/, {
@@ -33,17 +34,22 @@ const validationSchema = zod.object({
   paymentMethod: zod.string().min(4, "Selecione a forma de pagamento."),
 });
 
-type CheckoutProps = zod.infer<typeof validationSchema>;
+export type CheckoutProps = zod.infer<typeof validationSchema>;
 
 export function Checkout() {
-  const { selectedCoffees, changeCoffeeQuantity, removeFromCart } =
-    useCoffeeShop();
+  const {
+    selectedCoffees,
+    changeCoffeeQuantity,
+    removeFromCart,
+    handleSavePurchaseData,
+  } = useCoffeeShop();
+  const navigate = useNavigate();
 
   const coffeeShopForm = useForm<CheckoutProps>({
     resolver: zodResolver(validationSchema),
     defaultValues: {
-      paymentMethod: 'money'
-    }
+      paymentMethod: "money",
+    },
   });
 
   const { reset, handleSubmit } = coffeeShopForm;
@@ -67,8 +73,9 @@ export function Checkout() {
   }
 
   const onSubmit = (data: CheckoutProps) => {
-    console.log("data", data);
+    handleSavePurchaseData({ purchaseData: data, selectedCoffees });
     reset();
+    navigate("/success");
   };
 
   const handleConfirm = handleSubmit(onSubmit);

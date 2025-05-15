@@ -68,7 +68,7 @@ export const CartButton = styled.button`
   cursor: pointer;
 
   span {
-    background-color: ${({ theme }) => theme.colors['yellow-dark']};
+    background-color: ${({ theme }) => theme.colors["yellow-dark"]};
     color: ${({ theme }) => theme.colors["white"]};
     padding: 1px 4.5px;
     font-size: 0.7rem;
@@ -82,7 +82,22 @@ export const CartButton = styled.button`
   }
 
   &:hover {
-    color: ${({ theme }) => theme.colors['yellow-light']};
-    background-color: ${({ theme }) => theme.colors['yellow']};
+    color: ${({ theme }) => theme.colors["yellow-light"]};
+    background-color: ${({ theme }) => theme.colors["yellow"]};
+  }
+`;
+
+export const NewOrderButton = styled.button`
+  border: none;
+  padding: 15px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 5px;
+  color: ${({ theme }) => theme.colors["white"]};
+  background-color: ${({ theme }) => theme.colors["yellow"]};
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors["yellow-dark"]};
   }
 `;

@@ -4,6 +4,7 @@ import {
   LogoContent,
   LocationButton,
   RightContent,
+  NewOrderButton,
 } from "./styles";
 import logo from "../../assets/logo.svg";
 
@@ -13,7 +14,7 @@ import { useCoffeeShop } from "../../contexts/CoffeeShopContext";
 
 export function Header() {
   const navigate = useNavigate();
-  const { selectedCoffees } = useCoffeeShop();
+  const { selectedCoffees, purchaseData } = useCoffeeShop();
 
   const totalItems = selectedCoffees.reduce(
     (currentTotalItems, { quantity }) => {
@@ -27,6 +28,7 @@ export function Header() {
       <button
         style={{ all: "unset", cursor: "pointer" }}
         onClick={() => navigate("/")}
+        disabled={!!purchaseData}
       >
         <LogoContent alt="" src={logo} />
       </button>
@@ -37,10 +39,14 @@ export function Header() {
           Recife, PE
         </LocationButton>
 
-        <CartButton type="button" onClick={() => navigate("/checkout")}>
-          {totalItems > 0 && <span>{totalItems}</span>}
-          <ShoppingCart size={22} weight="fill" />
-        </CartButton>
+        {purchaseData ? (
+          <NewOrderButton>NOVO PEDIDO</NewOrderButton>
+        ) : (
+          <CartButton type="button" onClick={() => navigate("/checkout")}>
+            {totalItems > 0 && <span>{totalItems}</span>}
+            <ShoppingCart size={22} weight="fill" />
+          </CartButton>
+        )}
       </RightContent>
     </HeaderContainer>
   );
