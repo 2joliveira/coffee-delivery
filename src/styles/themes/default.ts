@@ -16,6 +16,8 @@ export const defaultTheme = {
     "base-card": "#F3F2F2",
     "background": "#FAFAFA",
     "white": "#FFFFFF",
+    "red": "#FF0000",
+    "red-dark": "#8B0000",
   },
   fonts: {
     family: {

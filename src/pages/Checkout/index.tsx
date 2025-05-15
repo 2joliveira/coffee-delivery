@@ -1,12 +1,7 @@
 import {
-  AddressContent,
   CheckoutContainer,
   OrderContainer,
-  PaymentContent,
   SelectedCoffeesContainer,
-  HeaderContent,
-  PaymentOptions,
-  PaymentOption,
   CoffeeList,
   CoffeeItem,
   CounterActions,
@@ -17,21 +12,13 @@ import {
   RemoveButton,
   TitleContainer,
 } from "./styles";
-import {
-  Bank,
-  CreditCard,
-  CurrencyDollar,
-  MapPinLine,
-  Minus,
-  Money,
-  Plus,
-  Trash,
-} from "@phosphor-icons/react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as zod from "zod";
+import { Minus, Plus, Trash } from "@phosphor-icons/react";
 import { useCoffeeShop } from "../../contexts/CoffeeShopContext";
 import { formatPrice } from "../../utils/formatPrice";
+import { AddressForm } from "./components/AddressForm";
+import * as zod from "zod";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const validationSchema = zod.object({
   cep: zod.string().regex(/^\d{5}-?\d{3}$/, {
@@ -40,10 +27,10 @@ const validationSchema = zod.object({
   street: zod.string().min(4, "Informe a rua em que reside."),
   number: zod.string().min(1, "Informe o número da sua residência."),
   complement: zod.string().optional(),
-  district: zod.string().min(4, "Informe seu bairro"),
-  city: zod.string().min(4, "Informe sua cidade"),
-  uf: zod.string().min(2, "Informe o UF"),
-  paymentMethod: zod.string(),
+  district: zod.string().min(4, "Informe seu bairro."),
+  city: zod.string().min(4, "Informe sua cidade."),
+  uf: zod.string().min(2, "Informe o UF."),
+  paymentMethod: zod.string().min(4, "Selecione a forma de pagamento."),
 });
 
 type CheckoutProps = zod.infer<typeof validationSchema>;
@@ -52,18 +39,14 @@ export function Checkout() {
   const { selectedCoffees, changeCoffeeQuantity, removeFromCart } =
     useCoffeeShop();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    setValue,
-    formState: { errors },
-  } = useForm<CheckoutProps>({
+  const coffeeShopForm = useForm<CheckoutProps>({
     resolver: zodResolver(validationSchema),
+    defaultValues: {
+      paymentMethod: 'money'
+    }
   });
 
-  const paymentMethod = watch("paymentMethod");
+  const { reset, handleSubmit } = coffeeShopForm;
 
   const totalPrice = selectedCoffees.reduce(
     (currentPrice, { quantity, price }) => {
@@ -74,13 +57,6 @@ export function Checkout() {
 
   const deliveryPrice = 3.5;
 
-  const onSubmit = (data: CheckoutProps) => {
-    console.log("data", data);
-    reset();
-  };
-
-  const handleConfirm = handleSubmit(onSubmit);
-
   function addCoffee(id: string, quantity: number) {
     changeCoffeeQuantity(id, quantity + 1);
   }
@@ -90,133 +66,21 @@ export function Checkout() {
     else removeFromCart(id);
   }
 
+  const onSubmit = (data: CheckoutProps) => {
+    console.log("data", data);
+    reset();
+  };
+
+  const handleConfirm = handleSubmit(onSubmit);
+
   return (
     <CheckoutContainer>
       <OrderContainer>
         <h1>Complete seu pedido</h1>
-        <AddressContent>
-          <HeaderContent>
-            <MapPinLine size={32} />
-            <span>
-              <h2>Endereço de Entrega</h2>
-              <h3>Informe o endereço onde deseja receber seu pedido</h3>
-            </span>
-          </HeaderContent>
-          <form>
-            <input
-              id="cep"
-              type="text"
-              placeholder="CEP"
-              style={{ width: "35%" }}
-              {...register("cep")}
-            />
-            {errors.cep && <p>{errors.cep.message}</p>}
 
-            <input
-              id="street"
-              type="text"
-              placeholder="Rua"
-              style={{ width: "100%" }}
-              {...register("street")}
-            />
-            {errors.street && <p>{errors.street.message}</p>}
-
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div style={{ width: "35%" }}>
-                <input
-                  id="number"
-                  type="text"
-                  placeholder="Número"
-                  style={{ width: "100%" }}
-                  {...register("number")}
-                />
-                {errors.number && <p>{errors.number.message}</p>}
-              </div>
-
-              <input
-                id="complement"
-                type="text"
-                placeholder="Complemento"
-                style={{ width: "64%" }}
-                {...register("complement")}
-              />
-              {errors.complement && <p>{errors.complement.message}</p>}
-            </div>
-
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div style={{ width: "35%" }}>
-                <input
-                  id="district"
-                  type="text"
-                  placeholder="Bairro"
-                  style={{ width: "100%" }}
-                  {...register("district")}
-                />
-                {errors.district && <p>{errors.district.message}</p>}
-              </div>
-
-              <div style={{ width: "53%" }}>
-                <input
-                  id="city"
-                  type="text"
-                  placeholder="Cidade"
-                  style={{ width: "100%" }}
-                  {...register("city")}
-                />
-                {errors.city && <p>{errors.city.message}</p>}
-              </div>
-
-              <div style={{ width: "10%" }}>
-                <input
-                  id="uf"
-                  type="text"
-                  placeholder="UF"
-                  style={{ width: "100%" }}
-                  {...register("uf")}
-                />
-                {errors.uf && <p>{errors.uf.message}</p>}
-              </div>
-            </div>
-
-            <input type="hidden" {...register("paymentMethod")} />
-          </form>
-        </AddressContent>
-        <PaymentContent>
-          <HeaderContent>
-            <CurrencyDollar size={32} />
-            <span>
-              <h2>Pagamento</h2>
-              <h3>
-                O pagamento é feito na entrega. Escolha a forma que deseja pagar
-              </h3>
-            </span>
-          </HeaderContent>
-
-          <PaymentOptions>
-            <PaymentOption
-              onClick={() => setValue("paymentMethod", "credit")}
-              isSelected={paymentMethod === "credit"}
-            >
-              <CreditCard size={32} />
-              <p>CARTÃO DE CRÉDITO</p>
-            </PaymentOption>
-
-            <PaymentOption
-              onClick={() => setValue("paymentMethod", "debit")}
-              isSelected={paymentMethod === "debit"}
-            >
-              <Bank size={32} />
-              <p>CARTÃO DE DÉBITO</p>
-            </PaymentOption>
-            <PaymentOption
-              onClick={() => setValue("paymentMethod", "money")}
-              isSelected={paymentMethod == "money"}
-            >
-              <Money size={32} />
-              <p>DINHEIRO</p>
-            </PaymentOption>
-          </PaymentOptions>
-        </PaymentContent>
+        <FormProvider {...coffeeShopForm}>
+          <AddressForm />
+        </FormProvider>
       </OrderContainer>
 
       <SelectedCoffeesContainer>
@@ -259,7 +123,7 @@ export function Checkout() {
             ))}
           </CoffeeList>
 
-          <div>
+          <div style={{ paddingTop: "20px" }}>
             <span>
               <p>Total de items</p>
               <p>{formatPrice(totalPrice)}</p>

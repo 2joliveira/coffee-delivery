@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const CheckoutContainer = styled.div`
   width: 100%;
@@ -35,116 +35,9 @@ export const OrderContainer = styled.div`
   }
 `;
 
-export const AddressContent = styled.div`
-  padding: 50px;
-  border-radius: 10px;
-  margin-top: 20px;
-  background-color: ${({ theme }) => theme.colors["base-card"]};
-
-  h2 {
-    font-weight: normal;
-    color: ${({ theme }) => theme.colors["base-subtitle"]};
-  }
-
-  h3 {
-    font-weight: normal;
-    color: ${({ theme }) => theme.colors["base-text"]};
-  }
-
-  svg {
-    margin-right: 20px;
-    color: ${({ theme }) => theme.colors["yellow-dark"]};
-  }
-
-  form {
-    margin-top: 30px;
-
-    input {
-      height: 55px;
-      padding: 10px;
-      border-radius: 7px;
-      color: ${({ theme }) => theme.colors["base-subtitle"]};
-      background-color: ${({ theme }) => theme.colors["base-input"]};
-      border: 1px solid ${({ theme }) => theme.colors["base-hover"]};
-      margin-top: 10px;
-
-      &:hover {
-        background-color: ${({ theme }) => theme.colors["base-hover"]};
-      }
-    }
-
-    p {
-      color: red;
-      font-size: 0.7rem;
-      margin-top: 5px;
-      padding-left: 5px;
-    }
-  }
-`;
-
-export const PaymentContent = styled(AddressContent)`
-  svg {
-    color: ${({ theme }) => theme.colors["purple"]};
-  }
-`;
-
-export const PaymentOptions = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 50px;
-  gap: 20px;
-
-  @media (max-width: 745px) {
-    flex-direction: column;
-  }
-`;
-
-export const PaymentOption = styled.button<{ isSelected: boolean }>`
-  width: 100%;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-
-  svg {
-    margin: 0;
-  }
-
-  p {
-    margin-left: 10px;
-  }
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors["base-hover"]};
-  }
-
-  &:focus {
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["purple-dark"]};
-  }
-
-  ${({ isSelected }) =>
-    isSelected
-      ? css`
-          border: 2px solid ${({ theme }) => theme.colors["purple-dark"]};
-          background-color: ${({ theme }) => theme.colors["purple-light"]};
-        `
-      : css`
-          color: ${({ theme }) => theme.colors["base-text"]};
-          background-color: ${({ theme }) => theme.colors["base-button"]};
-        `}
-
-  @media (max-width: 745px) {
-    justify-content: center;
-    padding: 10px;
-  }
-`;
-
 export const SelectedCoffeesContainer = styled.div`
   height: 100%;
   width: 35%;
-  min-width: 500px;
 
   main {
     margin-top: 20px;
@@ -195,7 +88,7 @@ export const TitleContainer = styled.div`
 
 export const ConfirmButton = styled.button`
   width: 100%;
-  margin-top: 30px;
+  margin-top: 12px;
   font-weight: bold;
   border: none;
   border-radius: 10px;
@@ -216,6 +109,27 @@ export const ConfirmButton = styled.button`
 export const CoffeeList = styled.ul`
   list-style-type: none;
   padding-left: 0;
+  padding-right: 10px;
+
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px ${({theme}) => theme.colors['base-card']};
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${({theme}) => theme.colors['base-hover']};
+    border-radius: 10px;
+  }
+
+  @media (min-width: 600px) {
+    max-height: 410px;
+  }
 `;
 
 export const CoffeeItem = styled.li`
@@ -241,6 +155,11 @@ export const CoffeeItem = styled.li`
   @media (max-width: 1320px) {
     gap: 20px;
   }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export const RemoveButton = styled.button`
@@ -260,7 +179,7 @@ export const RemoveButton = styled.button`
   }
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors['base-hover']};
+    background-color: ${({ theme }) => theme.colors["base-hover"]};
   }
 `;
 
@@ -271,7 +190,7 @@ export const TitleContent = styled.p`
 `;
 
 export const PriceContent = styled.p`
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: ${({ theme }) => theme.colors["base-text"]};
 `;
@@ -306,15 +225,10 @@ export const CounterButton = styled.button`
 
   &:hover {
     color: ${({ theme }) => theme.colors["purple-dark"]};
-    background-color: ${({ theme }) => theme.colors['base-hover']};
+    background-color: ${({ theme }) => theme.colors["base-hover"]};
   }
 
   &:focus {
     box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["purple-dark"]};
   }
-`;
-
-export const HeaderContent = styled.div`
-  display: flex;
-  flex-direction: row;
 `;

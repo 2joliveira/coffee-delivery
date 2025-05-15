@@ -13,6 +13,9 @@ import {
   ModalContainer,
   CoffeeContentModal,
   AmountText,
+  ModalButton,
+  GoToCartButton,
+  CancelButton,
 } from "./styles";
 import { ShoppingCart, Plus, Minus } from "@phosphor-icons/react";
 import { useCoffeeShop } from "../../../../contexts/CoffeeShopContext";
@@ -24,8 +27,9 @@ const modalCustomStyles = {
     left: "50%",
     right: "auto",
     bottom: "auto",
-    marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+    maxWidth: "500px",
+    minWidth: "300px",
   },
 };
 
@@ -55,6 +59,11 @@ export function CoffeeCard(coffee: CoffeeProps) {
   function handleContinueToCart() {
     handleContinueShopping();
     navigate("/checkout");
+  }
+
+  function handleCancel() {
+    setQuantity(0);
+    closeModal();
   }
 
   const HandleActionButtons = () => {
@@ -129,13 +138,16 @@ export function CoffeeCard(coffee: CoffeeProps) {
             })}
           </AmountText>
 
-          <button className="modalButton" onClick={handleContinueShopping}>
+          <ModalButton onClick={handleContinueShopping}>
             Continuar Comprando
-          </button>
-          <button className="modalButton" onClick={handleContinueToCart}>
+          </ModalButton>
+
+          <GoToCartButton onClick={handleContinueToCart}>
             <ShoppingCart size={22} weight="fill" />
             Ir para o carrinho
-          </button>
+          </GoToCartButton>
+
+          <CancelButton onClick={handleCancel}>Cancelar</CancelButton>
         </ModalContainer>
       </Modal>
     </CoffeeContainer>
