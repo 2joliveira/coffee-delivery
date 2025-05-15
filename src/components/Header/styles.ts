@@ -68,7 +68,7 @@ export const CartButton = styled.button`
   cursor: pointer;
 
   span {
-    background-color: red;
+    background-color: ${({ theme }) => theme.colors['yellow-dark']};
     color: ${({ theme }) => theme.colors["white"]};
     padding: 1px 4.5px;
     font-size: 0.7rem;

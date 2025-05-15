@@ -48,7 +48,8 @@ export function Home() {
               Embalagem mantém o café intacto
             </Info>
             <Info color="purple">
-              <Coffee size={36} weight="fill" />O café chega fresquinho até você
+              <Coffee size={36} weight="fill" />
+              O café chega fresquinho até você
             </Info>
           </InfosContainer>
         </Description>

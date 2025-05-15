@@ -169,33 +169,54 @@ export const ModalContainer = styled.div`
     color: ${({ theme }) => theme.colors["base-subtitle"]};
     margin-bottom: 20px;
   }
+`;
 
-  .modalButton {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    font-weight: bold;
-    color: ${({ theme }) => theme.colors["base-text"]};
+export const ModalButton = styled.button`
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  color: ${({ theme }) => theme.colors["base-text"]};
 
-    cursor: pointer;
+  cursor: pointer;
 
-    &:focus {
-      box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["purple-dark"]};
-    }
+  &:focus {
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["purple-dark"]};
+  }
 
-    &:last-child {
-      background-color: ${({ theme }) => theme.colors["yellow"]};
-      color: ${({ theme }) => theme.colors["white"]};
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors["base-hover"]};
+  }
+`;
 
-      &:focus {
-        box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["yellow-dark"]};
-      }
-    }
+export const GoToCartButton = styled(ModalButton)`
+  background-color: ${({ theme }) => theme.colors["yellow"]};
+  color: ${({ theme }) => theme.colors["white"]};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  &:focus {
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["yellow-dark"]};
+  }
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors["yellow-dark"]};
+  }
+`;
+
+export const CancelButton = styled(ModalButton)`
+  color: ${({ theme }) => theme.colors["white"]};
+  background-color: ${({ theme }) => theme.colors["red"]};
+
+  &:focus {
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["red"]};
+  }
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors["red-dark"]};
   }
 `;
 
