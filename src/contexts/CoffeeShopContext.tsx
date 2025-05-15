@@ -8,10 +8,12 @@ import {
 import {
   CoffeeProps,
   coffeesShopReducer,
+  PurchaseDataProps,
 } from "../reducers/coffeesShop/reducer";
 import {
   addCoffeeToCart,
   removeCoffeeFromCart,
+  savePurchaseData,
   setCoffeeQuantity,
 } from "../reducers/coffeesShop/actions";
 
@@ -21,9 +23,11 @@ interface CoffeeShopProviderProps {
 
 interface CoffeeShopContextProps {
   selectedCoffees: CoffeeProps[];
+  purchaseData: PurchaseDataProps;
   addToCart: (id: string, coffee: CoffeeProps) => void;
   removeFromCart: (id: string) => void;
   changeCoffeeQuantity: (id: string, quantity: number) => void;
+  handleSavePurchaseData: (purchaseData: PurchaseDataProps) => void;
 }
 
 const CoffeeShopContext = createContext<CoffeeShopContextProps>(
@@ -65,13 +69,19 @@ export const CoffeeShoProvider: React.FC<CoffeeShopProviderProps> = ({
     dispatch(setCoffeeQuantity(id, quantity));
   }
 
+  function handleSavePurchaseData(purchaseData: PurchaseDataProps) {
+    dispatch(savePurchaseData(purchaseData));
+  }
+
   return (
     <CoffeeShopContext.Provider
       value={{
         selectedCoffees: coffeesShopState.selectedCoffees,
+        purchaseData: coffeesShopState.purchaseData,
         addToCart,
         removeFromCart,
         changeCoffeeQuantity,
+        handleSavePurchaseData,
       }}
     >
       {children}

@@ -1,3 +1,4 @@
+import { CheckoutProps } from "../../pages/Checkout";
 import { ActionsTypes } from "./actions";
 
 export interface CoffeeProps {
@@ -14,8 +15,14 @@ export interface SelectedCoffeeProps extends CoffeeProps {
   quantity: number;
 }
 
+export interface PurchaseDataProps {
+  purchaseData: CheckoutProps;
+  selectedCoffees: SelectedCoffeeProps[];
+}
+
 interface CoffeesState {
   selectedCoffees: SelectedCoffeeProps[];
+  purchaseData: PurchaseDataProps;
 }
 
 export function coffeesShopReducer(
@@ -60,6 +67,13 @@ export function coffeesShopReducer(
             ? { ...coffee, quantity: action.payload.quantity }
             : coffee
         ),
+      };
+
+    case ActionsTypes.SAVE_PURCHASE_DATA:
+      console.log(action.payload);
+      return {
+        ...state,
+        purchaseData: action.payload,
       };
 
     default:
