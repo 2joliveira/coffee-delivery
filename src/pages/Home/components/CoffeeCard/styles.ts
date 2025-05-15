@@ -22,6 +22,7 @@ export const CoffeeContainer = styled.li`
   }
 
   p {
+    text-align: center;
     color: ${({ theme }) => theme.colors["base-label"]};
   }
 
@@ -63,6 +64,8 @@ export const PriceContent = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 5px;
+  gap: 5px;
+
   p {
     color: ${({ theme }) => theme.colors["base-text"]};
     display: flex;
@@ -119,6 +122,7 @@ export const CounterButton = styled.button`
 
   &:hover {
     color: ${({ theme }) => theme.colors["purple-dark"]};
+    background-color: ${({ theme }) => theme.colors["base-hover"]};
   }
 
   &:focus {
@@ -147,4 +151,60 @@ export const CartButton = styled.button`
   &:focus {
     box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["purple-dark"]};
   }
+`;
+
+export const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  h3 {
+    font-family: "Baloo 2";
+    font-size: 1.5rem;
+  }
+
+  .textModal {
+    color: ${({ theme }) => theme.colors["base-subtitle"]};
+    margin-bottom: 20px;
+  }
+
+  .modalButton {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    color: ${({ theme }) => theme.colors["base-text"]};
+
+    cursor: pointer;
+
+    &:focus {
+      box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["purple-dark"]};
+    }
+
+    &:last-child {
+      background-color: ${({ theme }) => theme.colors["yellow"]};
+      color: ${({ theme }) => theme.colors["white"]};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      &:focus {
+        box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["yellow-dark"]};
+      }
+    }
+  }
+`;
+
+export const CoffeeContentModal = styled(ModalContainer)`
+  margin-bottom: 20px;
+`;
+
+export const AmountText = styled.p`
+  font-family: "Baloo 2";
+  font-size: 1.5rem;
+  color: ${({ theme }) => theme.colors["base-text"]};
 `;

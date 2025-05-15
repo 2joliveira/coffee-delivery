@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   AddressContent,
   CheckoutContainer,
@@ -31,7 +30,8 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
-import { useCoffeeShop } from "../../hooks/coffeeShop";
+import { useCoffeeShop } from "../../contexts/CoffeeShopContext";
+import { formatPrice } from "../../utils/formatPrice";
 
 const validationSchema = zod.object({
   cep: zod.string().regex(/^\d{5}-?\d{3}$/, {
@@ -43,28 +43,52 @@ const validationSchema = zod.object({
   district: zod.string().min(4, "Informe seu bairro"),
   city: zod.string().min(4, "Informe sua cidade"),
   uf: zod.string().min(2, "Informe o UF"),
+  paymentMethod: zod.string(),
 });
 
 type CheckoutProps = zod.infer<typeof validationSchema>;
 
 export function Checkout() {
-  const { selectedCoffees } = useCoffeeShop();
+  const { selectedCoffees, changeCoffeeQuantity, removeFromCart } =
+    useCoffeeShop();
+
   const {
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<CheckoutProps>({
     resolver: zodResolver(validationSchema),
   });
-  const [quantity, setQuantity] = useState(0);
+
+  const paymentMethod = watch("paymentMethod");
+
+  const totalPrice = selectedCoffees.reduce(
+    (currentPrice, { quantity, price }) => {
+      return currentPrice + quantity * price;
+    },
+    0
+  );
+
+  const deliveryPrice = 3.5;
 
   const onSubmit = (data: CheckoutProps) => {
-    console.log("Dados enviados:", data);
+    console.log("data", data);
     reset();
   };
 
   const handleConfirm = handleSubmit(onSubmit);
+
+  function addCoffee(id: string, quantity: number) {
+    changeCoffeeQuantity(id, quantity + 1);
+  }
+
+  function removeCoffee(id: string, quantity: number) {
+    if (quantity > 1) changeCoffeeQuantity(id, quantity - 1);
+    else removeFromCart(id);
+  }
 
   return (
     <CheckoutContainer>
@@ -153,6 +177,8 @@ export function Checkout() {
                 {errors.uf && <p>{errors.uf.message}</p>}
               </div>
             </div>
+
+            <input type="hidden" {...register("paymentMethod")} />
           </form>
         </AddressContent>
         <PaymentContent>
@@ -167,16 +193,25 @@ export function Checkout() {
           </HeaderContent>
 
           <PaymentOptions>
-            <PaymentOption>
+            <PaymentOption
+              onClick={() => setValue("paymentMethod", "credit")}
+              isSelected={paymentMethod === "credit"}
+            >
               <CreditCard size={32} />
               <p>CARTÃO DE CRÉDITO</p>
             </PaymentOption>
 
-            <PaymentOption>
+            <PaymentOption
+              onClick={() => setValue("paymentMethod", "debit")}
+              isSelected={paymentMethod === "debit"}
+            >
               <Bank size={32} />
               <p>CARTÃO DE DÉBITO</p>
             </PaymentOption>
-            <PaymentOption>
+            <PaymentOption
+              onClick={() => setValue("paymentMethod", "money")}
+              isSelected={paymentMethod == "money"}
+            >
               <Money size={32} />
               <p>DINHEIRO</p>
             </PaymentOption>
@@ -189,46 +224,37 @@ export function Checkout() {
 
         <main>
           <CoffeeList>
-            {selectedCoffees.map((item) => (
-              <CoffeeItem key={item.name}>
-                <img src={item.imagePath} alt="" />
+            {selectedCoffees.map(({ id, name, imagePath, quantity, price }) => (
+              <CoffeeItem key={id}>
+                <img src={imagePath} alt="" />
 
                 <TitleContainer>
-                  <TitleContent>{item.name}</TitleContent>
+                  <TitleContent>{name}</TitleContent>
                   <div>
                     <CounterActions>
                       <CounterButton
                         type="button"
-                        onClick={() =>
-                          quantity > 0 && setQuantity(quantity - 1)
-                        }
+                        onClick={() => removeCoffee(id, quantity)}
                       >
-                        <Minus size={17} />
+                        <Minus size={17} weight="bold" />
                       </CounterButton>
                       <p>{quantity}</p>
                       <CounterButton
                         type="button"
-                        onClick={() => setQuantity(quantity + 1)}
+                        onClick={() => addCoffee(id, quantity)}
                       >
-                        <Plus size={17} />
+                        <Plus size={17} weight="bold" />
                       </CounterButton>
                     </CounterActions>
 
-                    <RemoveButton>
+                    <RemoveButton onClick={() => removeFromCart(id)}>
                       <Trash size={17} />
                       Remover
                     </RemoveButton>
                   </div>
                 </TitleContainer>
 
-                <PriceContent>
-                  <p>
-                    {item.price.toLocaleString("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
-                    })}
-                  </p>
-                </PriceContent>
+                <PriceContent>{formatPrice(price * quantity)}</PriceContent>
               </CoffeeItem>
             ))}
           </CoffeeList>
@@ -236,19 +262,23 @@ export function Checkout() {
           <div>
             <span>
               <p>Total de items</p>
-              <p>R$ 29,70</p>
+              <p>{formatPrice(totalPrice)}</p>
             </span>
             <span>
               <p>Entrega</p>
-              <p>R$ 3,50</p>
+              <p>{formatPrice(deliveryPrice)}</p>
             </span>
             <span>
               <p>Total</p>
-              <p>R$ 33,20</p>
+              <p>{formatPrice(totalPrice + deliveryPrice)}</p>
             </span>
           </div>
 
-          <ConfirmButton type="button" onClick={handleConfirm}>
+          <ConfirmButton
+            type="button"
+            onClick={handleConfirm}
+            disabled={selectedCoffees.length < 1}
+          >
             CONFIRMAR PEDIDO
           </ConfirmButton>
         </main>
