@@ -73,7 +73,7 @@ export function Checkout() {
   }
 
   const onSubmit = (data: CheckoutProps) => {
-    handleSavePurchaseData({ purchaseData: data, selectedCoffees });
+    handleSavePurchaseData({ ...data, selectedCoffees, date: new Date() });
     reset();
     navigate("/success");
   };

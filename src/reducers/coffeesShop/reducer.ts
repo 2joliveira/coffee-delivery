@@ -15,20 +15,21 @@ export interface SelectedCoffeeProps extends CoffeeProps {
   quantity: number;
 }
 
-export interface PurchaseDataProps {
-  purchaseData: CheckoutProps;
+export interface PurchaseDataProps extends CheckoutProps {
   selectedCoffees: SelectedCoffeeProps[];
+  date: Date;
 }
 
 interface CoffeesState {
   selectedCoffees: SelectedCoffeeProps[];
-  purchaseData: PurchaseDataProps;
+  purchaseData: PurchaseDataProps | null;
+  purchaseHistory: PurchaseDataProps[];
 }
 
 export function coffeesShopReducer(
   state: CoffeesState,
   action: any
-): CoffeesState {
+) {
   const currentCoffeeIndex = state.selectedCoffees.findIndex(
     (coffee) => coffee.id === action.payload.id
   );
@@ -70,10 +71,18 @@ export function coffeesShopReducer(
       };
 
     case ActionsTypes.SAVE_PURCHASE_DATA:
-      console.log(action.payload);
       return {
         ...state,
+        selectedCoffees: [],
         purchaseData: action.payload,
+      };
+
+    case ActionsTypes.SAVE_PURCHASE_ON_HISTORY:
+      console.log('action.payload', state);
+      return {
+        ...state,
+        purchaseData: null,
+        purchaseHistory: [...state.purchaseHistory, { ...action.payload }],
       };
 
     default:

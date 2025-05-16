@@ -14,7 +14,10 @@ import { useCoffeeShop } from "../../contexts/CoffeeShopContext";
 
 export function Header() {
   const navigate = useNavigate();
-  const { selectedCoffees, purchaseData } = useCoffeeShop();
+  const { selectedCoffees, purchaseData, newOrder, purchasesHistory } =
+    useCoffeeShop();
+
+  console.log("purchasesHistory", purchasesHistory);
 
   const totalItems = selectedCoffees.reduce(
     (currentTotalItems, { quantity }) => {
@@ -22,6 +25,11 @@ export function Header() {
     },
     0
   );
+
+  function handleNewOrder() {
+    purchaseData && newOrder(purchaseData);
+    navigate("/");
+  }
 
   return (
     <HeaderContainer>
@@ -40,7 +48,7 @@ export function Header() {
         </LocationButton>
 
         {purchaseData ? (
-          <NewOrderButton>NOVO PEDIDO</NewOrderButton>
+          <NewOrderButton onClick={handleNewOrder}>NOVO PEDIDO</NewOrderButton>
         ) : (
           <CartButton type="button" onClick={() => navigate("/checkout")}>
             {totalItems > 0 && <span>{totalItems}</span>}

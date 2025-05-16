@@ -51,7 +51,7 @@ export const LocationButton = styled.button`
   }
 
   @media (max-width: 380px) {
-    width: 100%;
+    width: 50%;
   }
 `;
 
@@ -84,6 +84,10 @@ export const CartButton = styled.button`
   &:hover {
     color: ${({ theme }) => theme.colors["yellow-light"]};
     background-color: ${({ theme }) => theme.colors["yellow"]};
+  }
+
+  @media (max-width: 380px) {
+    width: 50%;
   }
 `;
 
