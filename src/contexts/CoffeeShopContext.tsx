@@ -14,6 +14,7 @@ import {
   addCoffeeToCart,
   removeCoffeeFromCart,
   savePurchaseData,
+  savePurchaseOnHistory,
   setCoffeeQuantity,
 } from "../reducers/coffeesShop/actions";
 
@@ -23,11 +24,13 @@ interface CoffeeShopProviderProps {
 
 interface CoffeeShopContextProps {
   selectedCoffees: CoffeeProps[];
-  purchaseData: PurchaseDataProps;
+  purchaseData: PurchaseDataProps | null;
+  purchasesHistory: PurchaseDataProps[],
   addToCart: (id: string, coffee: CoffeeProps) => void;
   removeFromCart: (id: string) => void;
   changeCoffeeQuantity: (id: string, quantity: number) => void;
   handleSavePurchaseData: (purchaseData: PurchaseDataProps) => void;
+  newOrder: (purchaseData: PurchaseDataProps) => void;
 }
 
 const CoffeeShopContext = createContext<CoffeeShopContextProps>(
@@ -41,6 +44,8 @@ export const CoffeeShoProvider: React.FC<CoffeeShopProviderProps> = ({
     coffeesShopReducer,
     {
       selectedCoffees: [],
+      purchaseData: null,
+      purchaseHistory: [],
     },
     (initialState) => {
       const storedStateJSON = localStorage.getItem("@coffee-shop");
@@ -73,15 +78,21 @@ export const CoffeeShoProvider: React.FC<CoffeeShopProviderProps> = ({
     dispatch(savePurchaseData(purchaseData));
   }
 
+  function newOrder(purchaseData: PurchaseDataProps) {
+    dispatch(savePurchaseOnHistory(purchaseData));
+  }
+
   return (
     <CoffeeShopContext.Provider
       value={{
         selectedCoffees: coffeesShopState.selectedCoffees,
         purchaseData: coffeesShopState.purchaseData,
+        purchasesHistory: coffeesShopState.purchaseHistory,
         addToCart,
         removeFromCart,
         changeCoffeeQuantity,
         handleSavePurchaseData,
+        newOrder
       }}
     >
       {children}

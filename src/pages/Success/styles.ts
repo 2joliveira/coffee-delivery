@@ -21,6 +21,16 @@ export const HeaderContainer = styled.header`
     font-weight: normal;
     color: ${({ theme }) => theme.colors["base-subtitle"]};
   }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 1.8rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
 `;
 
 export const MainContent = styled.main`
@@ -31,6 +41,19 @@ export const MainContent = styled.main`
   img {
     width: 40%;
   }
+
+  @media (max-width: 1500px) {
+    img {
+      width: 50%;
+      min-width: 300px;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 20px;
+  }
 `;
 
 export const PurchaseInfosContainer = styled.section`
@@ -38,6 +61,10 @@ export const PurchaseInfosContainer = styled.section`
   padding: 1px;
   background: linear-gradient(120deg, #dbac2c, #8047f8);
   border-radius: 10px 50px 10px 50px;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
 `;
 
 export const PurchaseInfos = styled.div`
@@ -47,6 +74,11 @@ export const PurchaseInfos = styled.div`
   display: flex;
   flex-direction: column;
   gap: 60px;
+
+  @media (max-width: 600px) {
+    padding: 1.5rem;
+    gap: 30px;
+  }
 `;
 
 export const InfoContent = styled.div<InfoProps>`
@@ -65,5 +97,15 @@ export const InfoContent = styled.div<InfoProps>`
     background-color: ${({ iconcolor }) => iconcolor};
     border-radius: 50px;
     padding: 7px;
+  }
+
+  @media (max-width: 600px) {
+    p {
+      font-size: 1rem;
+    }
+
+    svg {
+      min-width: 30px;
+    }
   }
 `;
