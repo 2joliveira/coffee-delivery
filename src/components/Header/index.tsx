@@ -14,8 +14,7 @@ import { useCoffeeShop } from "../../contexts/CoffeeShopContext";
 
 export function Header() {
   const navigate = useNavigate();
-  const { selectedCoffees, purchaseData, newOrder, purchasesHistory } =
-    useCoffeeShop();
+  const { selectedCoffees, purchaseData, newOrder } = useCoffeeShop();
 
   const totalItems = selectedCoffees.reduce(
     (currentTotalItems, { quantity }) => {
