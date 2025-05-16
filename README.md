@@ -1,6 +1,6 @@
 # ☕ Coffee Delivery
 
-Nesse desafio proposto pelo curso da Rocketseat, desenvolvi uma aplicação para gerenciar um carrinho de compras de uma cafeteria fictícia, que contém as seguintes funcionalidades:
+Nesse desafio proposto pelo curso da Rocketseat, desenvolvi uma aplicação para gerenciar um carrinho de compras de uma cafeteria fictícia.
 
 ## ✅ Funcionalidades
 
