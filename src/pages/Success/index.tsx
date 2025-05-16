@@ -9,8 +9,21 @@ import {
 import { CurrencyDollar, MapPin, Timer } from "@phosphor-icons/react";
 
 import successImg from "@/assets/success.png";
+import { useCoffeeShop } from "../../contexts/CoffeeShopContext";
 
 export function Success() {
+  const { purchaseData } = useCoffeeShop();
+
+  if (!purchaseData) return null;
+
+  const { street, number, district, city, uf, paymentMethod } = purchaseData;
+
+  const PAYMENT_METHOD: any = {
+    money: "Dinheiro",
+    credit: "Cartão de crédito",
+    debit: "Cartão de débito",
+  }
+
   return (
     <Container>
       <HeaderContainer>
@@ -25,9 +38,9 @@ export function Success() {
               <MapPin size={35} weight="fill" />
               <span>
                 <p>
-                  Entrega em <b>Rua João Daniel Martinelli, 102</b>
+                  Entrega em <b>{`Rua ${street}, ${number}`}</b>
                 </p>
-                <p>Farrapos - Porto Alegre, RS</p>
+                <p>{`${district} - ${city}, ${uf}`}</p>
               </span>
             </InfoContent>
 
@@ -43,7 +56,7 @@ export function Success() {
               <CurrencyDollar size={35} />
               <span>
                 <p>Pagamento na entrega</p>
-                <p>Cartão de crédito</p>
+                <p>{PAYMENT_METHOD[paymentMethod]}</p>
               </span>
             </InfoContent>
           </PurchaseInfos>

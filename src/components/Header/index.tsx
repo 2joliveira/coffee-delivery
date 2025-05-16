@@ -17,8 +17,6 @@ export function Header() {
   const { selectedCoffees, purchaseData, newOrder, purchasesHistory } =
     useCoffeeShop();
 
-  console.log("purchasesHistory", purchasesHistory);
-
   const totalItems = selectedCoffees.reduce(
     (currentTotalItems, { quantity }) => {
       return (currentTotalItems += quantity);

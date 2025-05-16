@@ -78,7 +78,6 @@ export function coffeesShopReducer(
       };
 
     case ActionsTypes.SAVE_PURCHASE_ON_HISTORY:
-      console.log('action.payload', state);
       return {
         ...state,
         purchaseData: null,
