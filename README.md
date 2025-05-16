@@ -1,50 +1,96 @@
-# React + TypeScript + Vite
+# ☕ Coffee Delivery
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Nesse desafio proposto pelo curso da Rocketseat, desenvolvi uma aplicação para gerenciar um carrinho de compras de uma cafeteria fictícia, que contém as seguintes funcionalidades:
 
-Currently, two official plugins are available:
+- Listagem de produtos (cafés) disponíveis para compra
+- Adicionar uma quantidade específicas de itens no carrinho
+- Aumentar ou remover a quantidade de itens no carrinho
+- Formulário para o usuário preencher o seu endereço
+- Exibir o total de itens no carrinho no Header
+- Exibir o valor total da soma de itens no carrinho multiplicados pelo valor
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Apesar de serem poucas funcionalidades, foram abordados conceitos como:
 
-## Expanding the ESLint configuration
+- Estados
+- ContextAPI
+- LocalStorage
+- Imutabilidade do estado
+- Listas e chaves no ReactJS
+- Propriedades
+- Componentização
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🚀 Tecnologias utilizadas
 
-- Configure the top-level `parserOptions` property like this:
+- [React 18](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Zod](https://github.com/colinhacks/zod) – para validação de schemas
+- [React Router DOM](https://reactrouter.com/)
+- [Styled Components](https://styled-components.com/)
+- [Phosphor Icons](https://phosphoricons.com/)
+- [ESLint](https://eslint.org/) – com suporte a React Hooks
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 📦 Instalação
+
+Clone o repositório e instale as dependências:
+
+```bash
+git clone https://github.com/seu-usuario/coffee-delivery.git
+cd coffee-delivery
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Ou, se estiver usando Yarn:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+yarn
 ```
+
+## ▶️ Como rodar o projeto
+
+### Ambiente de desenvolvimento
+
+```bash
+npm run dev
+```
+
+### Build para produção
+
+```bash
+npm run build
+```
+
+### Visualizar o build
+
+```bash
+npm run preview
+```
+
+### Lint
+
+```bash
+npm run lint
+```
+
+## ✅ Funcionalidades (exemplo)
+
+- [x] Listagem de produtos (cafés)
+- [x] Adição e remoção de itens no carrinho
+- [x] Formulário de entrega com validação
+- [x] Layout responsivo
+- [x] Feedback visual com modal
+- [ ] Integração com backend (em desenvolvimento)
+
+## 📌 Requisitos
+
+- Node.js `16.17.0` ou superior
+- npm ou yarn
+
+## 📝 Licença
+
+Este projeto é open source e está sob a licença MIT.
+
+---
+
+Desenvolvido com 💜 por [Seu Nome](https://github.com/seu-usuario)
