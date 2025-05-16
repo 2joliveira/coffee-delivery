@@ -38,7 +38,7 @@ Apesar de serem poucas funcionalidades, foram abordados conceitos como:
 Clone o repositório e instale as dependências:
 
 ```bash
-git clone https://github.com/seu-usuario/coffee-delivery.git
+git clone https://github.com/2joliveira/coffee-delivery.git
 cd coffee-delivery
 npm install
 ```
