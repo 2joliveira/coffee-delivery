@@ -71,7 +71,7 @@ npm run preview
 
 ## 🌐 Deploy
 
-A aplicação está hospedada na Render e pode ser acessada por:
+A aplicação está hospedada na Vercel e pode ser acessada por:
 
 URL da API: https://coffee-delivery-jade.vercel.app/
 
