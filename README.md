@@ -69,6 +69,12 @@ npm run build
 npm run preview
 ```
 
+## 🌐 Deploy
+
+A aplicação está hospedada na Render e pode ser acessada por:
+
+URL da API: https://coffee-delivery-jade.vercel.app/
+
 ## 📌 Requisitos
 
 - Node.js `16.17.0` ou superior
