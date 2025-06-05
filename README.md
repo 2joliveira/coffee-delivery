@@ -73,13 +73,9 @@ npm run preview
 
 A aplicação está hospedada na Vercel e pode ser acessada por:
 
-URL da API: https://coffee-delivery-jade.vercel.app/
+URL: https://coffee-delivery-jade.vercel.app/
 
 ## 📌 Requisitos
 
 - Node.js `16.17.0` ou superior
 - npm ou yarn
-
-## 📝 Licença
-
-Este projeto é open source e está sob a licença MIT.
